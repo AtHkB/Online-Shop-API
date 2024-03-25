@@ -18,7 +18,6 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    select: false,
   },
   products: [
     {
@@ -74,12 +73,12 @@ userSchema.statics.login = async function (email, password) {
   if (!user) {
     throw Error("User doesn't exist or incorrect email");
   }
-  //TODO fixed compare
-  // const match = await bcrypt.compare(password, user.password);
 
-  // if (!match) {
-  //   throw Error("Incorrect password");
-  // }
+  const match = await bcrypt.compare(password, user.password);
+
+  if (!match) {
+    throw Error("Incorrect password");
+  }
 
   return user;
 };

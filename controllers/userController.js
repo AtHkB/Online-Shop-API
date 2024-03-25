@@ -50,9 +50,8 @@ const getUserOrders = async (req, res) => {
   const id = getUserIdFromToken(req);
   try {
     const _id = id;
-    const user = await User.find({ _id });
-
-    res.status(200).json(user);
+    let user = await User.find({ _id });
+    res.status(200).json(user[0].products);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -75,7 +74,7 @@ const createUserOrders = async (req, res) => {
     return res.status(404).json({ error: "User not found" });
   }
 
-  res.status(200).json(updatedUser);
+  res.status(200).json(updatedUser.products);
 };
 
 module.exports = { loginUser, signUpUser, getUserOrders, createUserOrders };
